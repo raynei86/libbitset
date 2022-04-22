@@ -27,4 +27,13 @@ void BitsetSet(const bitset *b, const size_t pos, const bool val);
 void BitsetFlip(const bitset *b);
 void BitsetFlipAt(const bitset *b, const size_t pos);
 
+/* TODO: WIP functions */
+char *BitsetToString(const bitset *b, const char zero, const char one);
+unsigned long BitsetToULong(const bitset *b);
+void BitsetAND(bitset *b, const bitset *other);
+void BitsetOR(bitset *b, const bitset *other);
+void BitsetXOR(bitset *b, const bitset *other);
+void BitsetLeftShift(bitset *b, const size_t pos);
+void BitsetRightShift(bitset *b, const size_t pos);
+
 #endif
