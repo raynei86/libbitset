@@ -9,17 +9,18 @@
       return r;                                                                \
   }
 
-bitset BitsetMake(const size_t size) {
-  bitset b;
-  b.arr = malloc(sizeof(bool) * size);
+bitset *BitsetMake(const size_t size) {
+  bitset *b;
+  b->arr = malloc(sizeof(bool) * size);
+  b->len = size;
 
   return b;
 }
 
 void BitsetDestroy(bitset *b) {
-  checkptr(b, ) if (!b->arr) { return; }
+  checkptr(b, ) checkptr(b->arr, )
 
-  free(b->arr);
+      free(b->arr);
 }
 
 int BitsetGet(const bitset *b, const size_t pos) {
