@@ -1,6 +1,7 @@
 # libbitset
 
-A very opinionated bitset library in C99
+A very opinionated bitset library in C99  
+Mostly safely oriented and inspired by C++ `std::bitset`
 
 # Installation
 ```bash
