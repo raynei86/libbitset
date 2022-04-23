@@ -9,10 +9,20 @@
       return r;                                                                \
   }
 
-bitset *BitsetMake(const size_t size) {
-  bitset *b;
-  b->arr = malloc(sizeof(bool) * size);
+bitset *BitsetMake(const size_t size, unsigned long val) {
+  bitset *b = malloc(sizeof(bitset));
+  b->arr = malloc(sizeof(int) * size);
   b->len = size;
+
+  /* Convert val to binary */
+  for (size_t i = b->len - 1; i >= 0; --i) {
+    b->arr[i] = val % 2;
+    val /= 2;
+
+    if (!i) {
+      break;
+    }
+  }
 
   return b;
 }
@@ -21,6 +31,7 @@ void BitsetDestroy(bitset *b) {
   checkptr(b, ) checkptr(b->arr, )
 
       free(b->arr);
+  free(b);
 }
 
 int BitsetGet(const bitset *b, const size_t pos) {
@@ -100,4 +111,19 @@ void BitsetFlipAt(const bitset *b, const size_t pos) {
   checkptr(b, )
 
       b->arr[pos] = !b->arr[pos];
+}
+
+void BitsetToString(const bitset *b, char *buf, const char zero,
+                    const char one) {
+  checkptr(b, ) checkptr(buf, )
+
+      for (size_t i = 0; i < b->len; ++i) {
+    if (b->arr[i]) {
+      buf[i] = one;
+    } else {
+      buf[i] = zero;
+    }
+  }
+
+  buf[b->len] = '\0';
 }
