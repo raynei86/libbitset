@@ -1,12 +1,14 @@
 #include <assert.h>
+#include <math.h>
 #include <stdlib.h>
 
 #include "bitset.h"
 
 #define checkptr(p, r)            \
 	{                         \
-		if (!p)           \
+		if (!p) {         \
 			return r; \
+		}                 \
 	}
 
 bitset *
@@ -17,14 +19,11 @@ BitsetMake(const size_t size, unsigned long val)
 	b->len = size;
 
 	/* Convert val to binary */
-	for (size_t i = b->len - 1; i >= 0; --i) {
+	for (size_t i = b->len - 1; i > 0; --i) {
 		b->arr[i] = val % 2;
 		val /= 2;
-
-		if (!i) {
-			break;
-		}
 	}
+	b->arr[0] = val % 2;
 
 	return b;
 }
@@ -155,4 +154,90 @@ BitsetToString(const bitset *b, char *buf, const char zero, const char one)
 	}
 
 	buf[b->len] = '\0';
+}
+
+unsigned long
+BitsetToULong(const bitset *b)
+{
+	checkptr(b, -1);
+
+	unsigned long l;
+	int base = 1;
+	for (size_t i = b->len - 1; i > 0; --i) {
+		l += b->arr[i] * base;
+		base *= 2;
+	}
+	l += b->arr[0] * base;
+
+	return l;
+}
+
+void
+BitsetAND(bitset *b, const bitset *other)
+{
+	checkptr(b, );
+	checkptr(other, );
+
+	size_t iter_length = (b->len < other->len) ? b->len : other->len;
+
+	for (size_t i = 0; i < iter_length; ++i) {
+		if (!b->arr[i] || !other->arr[i]) {
+			b->arr[i] = 0;
+		} else {
+			b->arr[i] = 1;
+		}
+	}
+}
+
+void
+BitsetOR(bitset *b, const bitset *other)
+{
+	checkptr(b, );
+	checkptr(other, );
+
+	size_t iter_length = (b->len < other->len) ? b->len : other->len;
+
+	for (size_t i = 0; i < iter_length; ++i) {
+		if (b->arr[i] || other->arr[i]) {
+			b->arr[i] = 1;
+		}
+	}
+}
+
+void
+BitsetXOR(bitset *b, const bitset *other)
+{
+	checkptr(b, );
+	checkptr(other, );
+
+	size_t iter_length = (b->len < other->len) ? b->len : other->len;
+
+	for (size_t i = 0; i < iter_length; ++i) {
+		if (b->arr[i] != other->arr[i]) {
+			b->arr[i] = 1;
+		} else {
+			b->arr[i] = 0;
+		}
+	}
+}
+
+void
+BitsetLeftShift(bitset *b, const size_t pos)
+{
+	checkptr(b, );
+
+	for (size_t i = b->len - 1; i > pos; --i) {
+		b->arr[i] = 0;
+	}
+	b->arr[pos] = 0;
+}
+
+void
+BitsetRightShift(bitset *b, const size_t pos)
+{
+	checkptr(b, );
+
+	for (size_t i = 0; i < pos; ++i) {
+		b->arr[i] = 0;
+	}
 }

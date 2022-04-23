@@ -42,8 +42,10 @@ void BitsetFlipAt(const bitset *b, const size_t pos);
 void BitsetToString(const bitset *b, char *buf, const char zero,
     const char one);
 
-/* TODO: WIP functions */
+/* Converts the bitset into unsigned long */
 unsigned long BitsetToULong(const bitset *b);
+
+/* bitwise operations */
 void BitsetAND(bitset *b, const bitset *other);
 void BitsetOR(bitset *b, const bitset *other);
 void BitsetXOR(bitset *b, const bitset *other);
