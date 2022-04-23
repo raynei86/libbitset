@@ -5,11 +5,11 @@
 #include <stddef.h>
 
 typedef struct bitset {
-  bool *arr;
-  const size_t len;
+  int *arr;
+  size_t len;
 } bitset;
 
-bitset BitsetMake(const size_t size);
+bitset *BitsetMake(const size_t size, unsigned long val);
 void BitsetDestroy(bitset *b);
 
 int BitsetGet(const bitset *b, const size_t pos);
@@ -28,7 +28,8 @@ void BitsetFlip(const bitset *b);
 void BitsetFlipAt(const bitset *b, const size_t pos);
 
 /* TODO: WIP functions */
-char *BitsetToString(const bitset *b, const char zero, const char one);
+void BitsetToString(const bitset *b, char *buf, const char zero,
+                    const char one);
 unsigned long BitsetToULong(const bitset *b);
 void BitsetAND(bitset *b, const bitset *other);
 void BitsetOR(bitset *b, const bitset *other);
